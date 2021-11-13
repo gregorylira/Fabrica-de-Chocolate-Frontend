@@ -197,17 +197,23 @@ export default class InsumoCrud extends Component {
 
     renderRows(){
         return this.state.list.map(insumo => {
+            const custo_rede = `R$ ${insumo.custo_rede}`
+            const custo = `R$ ${insumo.custo}`
+            const custo_atual = `R$ ${insumo.custo_atual}`
+            const aproveitamento = `${insumo.aproveitamento}%`
+            const custo_real = `R$ ${insumo.custo_real}`
+            const custo_final = `R$ ${insumo.custo_final}`
             return (
                 <tr key={insumo.id}>
                     <td>{insumo.id}</td>
                     <td>{insumo.produto}</td>
                     <td>{insumo.und}</td>
-                    <td>{insumo.custo_rede}</td>
-                    <td>{insumo.custo}</td>
-                    <td>{insumo.custo_atual}</td>
-                    <td>{insumo.aproveitamento}</td>
-                    <td>{insumo.custo_real}</td>
-                    <td>{insumo.custo_final}</td>
+                    <td>{custo_rede}</td>
+                    <td>{custo}</td>
+                    <td>{custo_atual}</td>
+                    <td>{aproveitamento}</td>
+                    <td>{custo_real}</td>
+                    <td>{custo_final}</td>
                     <td>
                         <button className="btn btn-warning"
                             onClick={()=> this.load(insumo)}>

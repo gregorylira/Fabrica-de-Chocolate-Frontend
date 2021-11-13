@@ -89,25 +89,6 @@ export default class ComposicaoCrud extends Component {
                                 onChange={e => this.updateField(e)}/>
                         </div>
                     </div>
-                    <div className="col-12 col-md-6">
-                        <div className="form-group">
-                            <label>Unidade da Medida</label>
-                            <input type="text" className="form-control"
-                                name="unid_medidaFK"
-                                value={this.state.composicao.unid_medidaFK}
-                                onChange={e => {if(!this.state.block){ this.updateField(e)}}}
-                                placeholder="Digite qual é a unidade (KG, g)..."/>
-                        </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                        <div className="form-group">
-                            <label>Custo do Insumo</label>
-                            <input type="number" className="form-control"
-                                name="custo_insumoFK"
-                                value={this.state.composicao.custo_insumoFK}
-                                onChange={e => { if(!this.state.block){ this.updateField(e)}}}/>
-                        </div>
-                    </div>
                 </div>
                 <hr />
                 <div className="row">
@@ -132,7 +113,8 @@ export default class ComposicaoCrud extends Component {
     }
 
     remove(composicao){
-        axios.delete(`${baseUrl}?ingredienteFK=${composicao.ingrediente}`).then(resp => {
+        console.log(composicao)
+        axios.delete(`${baseUrl}?ingredienteFK=${composicao.ingredienteFK}`).then(resp => {
             const list = this.getUpdatedList( composicao, false );
             this.setState({ list })
         })
@@ -163,7 +145,7 @@ export default class ComposicaoCrud extends Component {
         return this.state.list.map((composicao,index) => {
             return (
                 <tr key={composicao.id}>
-                    <td>{index}</td>
+                    <td>{index + 1}</td>
                     <td>{composicao.produtoFK}</td>
                     <td>{composicao.ingredienteFK}</td>
                     <td>{composicao.quant_liqu}</td>
