@@ -3,19 +3,19 @@ import Main from "../templates/Main";
 import axios from "axios";
 
 const headerProps = {
-    icon: "archive",
-    title: "Usuários",
-    subtitle: "Cadastro de Insumo: Incluir, Listar, Alterar e Excluir"
+    icon: "bitbucket",
+    title: "Produtos",
+    subtitle: "Cadastro de Produtos: Incluir, Listar, Alterar e Excluir"
 }
 
-const baseUrl = "http://localhost:3001/insumo";
+const baseUrl = "http://localhost:3001/preco-sugerido";
 const initialState = {
-    insumo: { produto: "", medida: 0, und:"", custo_rede: 0, custo:0 , custo_atual: 0, aproveitamento: 0, custo_real: 0, custo_final:0  },
+    produto: { produto: "", custo_MP: 0, custo_total: 0, preco_min: 0, preco_max:0 , preco_medio: 0, seu_preco_venda: 0, imposto_sob_venda: 0, margem_contribuicao:0, margem_liquida: 0 },
     list: []
 }
 
 
-export default class UserCrud extends Component {
+export default class ProdutoCrud extends Component {
     state = { ...initialState }
 
     componentWillMount() {
@@ -27,17 +27,17 @@ export default class UserCrud extends Component {
     }
 
     clear(){
-        this.setState({ user: initialState.insumo })
+        this.setState({ produto: initialState.produto })
     }
 
     save(){
-        const insumo = this.state.insumo;
-        const method = insumo.id ? "put" : "post";
-        const url = insumo.id ? `${baseUrl}/${insumo.id}` : baseUrl;
-        axios[method](url, insumo)
+        const produto = this.state.produto;
+        const method = produto.id ? "put" : "post";
+        const url = produto.id ? `${baseUrl}/${produto.id}` : baseUrl;
+        axios[method](url, produto)
             .then(resp => {
                 const list = this.getUpdatedList(resp.data);
-                this.setState({ insumo: initialState.insumo, list })
+                this.setState({ produto: initialState.produto, list })
             })
     }
 
@@ -48,9 +48,9 @@ export default class UserCrud extends Component {
     }
 
     updateField(event){
-        const insumo = { ...this.state.insumo }
-        insumo[event.target.name] = event.target.value;
-        this.setState({ insumo })
+        const produto = { ...this.state.produto }
+        produto[event.target.name] = event.target.value;
+        this.setState({ produto })
     }
 
     renderForm(){
@@ -62,82 +62,90 @@ export default class UserCrud extends Component {
                             <label>Produto</label>
                             <input type="text" className="form-control"
                                 name="produto"
-                                value={this.state.insumo.produto}
+                                value={this.state.produto.produto}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Digite o nome..." />
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="form-group">
-                            <label>Medida</label>
+                            <label>Custo M.P</label>
                             <input type="number" className="form-control"
-                                name="medida"
-                                value={this.state.insumo.medida}
-                                onChange={e => this.updateField(e)}
-                                placeholder="Digite o e-mail..." />
+                                name="custo_MP"
+                                value={this.state.produto.custo_MP}
+                                onChange={e => this.updateField(e)}/>
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="form-group">
-                            <label>und</label>
+                            <label>Custo Total</label>
                             <input type="text" className="form-control"
-                                name="und"
-                                value={this.state.insumo.und}
+                                name="custo_total"
+                                value={this.state.produto.custo_total}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Digite qual é a unidade..." />
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="form-group">
-                            <label>Custo Rede</label>
+                            <label>Preço Minimo Sugerido</label>
                             <input type="number" className="form-control"
-                                name="custo_rede"
-                                value={this.state.insumo.custo_rede}
+                                name="preco_min"
+                                value={this.state.produto.preco_min}
                                 onChange={e => this.updateField(e)}/>
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="form-group">
-                            <label>Custo</label>
+                            <label>Preço Maximo Sugerido</label>
                             <input type="number" className="form-control"
-                                name="custo"
-                                value={this.state.insumo.custo}
+                                name="preco_max"
+                                value={this.state.produto.preco_max}
                                 onChange={e => this.updateField(e)}/>
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="form-group">
-                            <label>Custo Atual</label>
+                            <label>Preço Medio (Rede)</label>
                             <input type="number" className="form-control"
-                                name="custo_atual"
-                                value={this.state.insumo.custo_atual}
+                                name="preco_medio"
+                                value={this.state.produto.preco_medio}
                                 onChange={e => this.updateField(e)}/>
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="form-group">
-                            <label>aproveitamento</label>
+                            <label>Seu Preco de Venda</label>
                             <input type="number" className="form-control"
-                                name="aproveitamento"
-                                value={this.state.insumo.aproveitamento}
+                                name="seu_preco_venda"
+                                value={this.state.produto.seu_preco_venda}
                                 onChange={e => this.updateField(e)}/>
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="form-group">
-                            <label>Custo Real</label>
+                            <label>Imposto Sobre Venda</label>
                             <input type="number" className="form-control"
-                                name="custo_real"
-                                value={this.state.insumo.custo_real}
+                                name="imposto_sob_venda"
+                                value={this.state.produto.imposto_sob_venda}
                                 onChange={e => this.updateField(e)}/>
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="form-group">
-                            <label>Custo Final</label>
+                            <label>Margem de Contribuição</label>
                             <input type="number" className="form-control"
-                                name="custo_final"
-                                value={this.state.insumo.custo_final}
+                                name="margem_contribuicao"
+                                value={this.state.produto.margem_contribuicao}
+                                onChange={e => this.updateField(e)}/>
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-6">
+                        <div className="form-group">
+                            <label>Margem Liquida</label>
+                            <input type="number" className="form-control"
+                                name="margem_liquida"
+                                value={this.state.produto.margem_liquida}
                                 onChange={e => this.updateField(e)}/>
                         </div>
                     </div>
@@ -160,13 +168,13 @@ export default class UserCrud extends Component {
         )
     }
 
-    load(insumo){
-        this.setState({ insumo })
+    load(produto){
+        this.setState({ produto })
     }
 
-    remove(insumo){
-        axios.delete(`${baseUrl}?produto=${insumo.produto}`).then(resp => {
-            const list = this.getUpdatedList( insumo, false );
+    remove(produto){
+        axios.delete(`${baseUrl}?produto=${produto.produto}`).then(resp => {
+            const list = this.getUpdatedList( produto, false );
             this.setState({ list })
         })
     }
@@ -178,13 +186,15 @@ export default class UserCrud extends Component {
                     <tr>
                         <th>ID</th>
                         <th>Produto</th>
-                        <th>und</th>
-                        <th>custo_rede</th>
-                        <th>custo</th>
-                        <th>custo_atual</th>
-                        <th>aproveitamento</th>
-                        <th>custo_real</th>
-                        <th>custo_final</th>
+                        <th>Custo MP</th>
+                        <th>Custo Total</th>
+                        <th>Custo Minimo</th>
+                        <th>Custo Maximo</th>
+                        <th>Preço Medio</th>
+                        <th>Seu Preço de Venda</th>
+                        <th>Imposto sob. Venda</th>
+                        <th>Margem de Contribuição</th>
+                        <th>Margem Liquida</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -196,25 +206,27 @@ export default class UserCrud extends Component {
     }
 
     renderRows(){
-        return this.state.list.map(insumo => {
+        return this.state.list.map(produto => {
             return (
-                <tr key={insumo.id}>
-                    <td>{insumo.id}</td>
-                    <td>{insumo.produto}</td>
-                    <td>{insumo.und}</td>
-                    <td>{insumo.custo_rede}</td>
-                    <td>{insumo.custo}</td>
-                    <td>{insumo.custo_atual}</td>
-                    <td>{insumo.aproveitamento}</td>
-                    <td>{insumo.custo_real}</td>
-                    <td>{insumo.custo_final}</td>
+                <tr key={produto.id}>
+                    <td>{produto.id}</td>
+                    <td>{produto.produto}</td>
+                    <td>{produto.custo_MP}</td>
+                    <td>{produto.custo_total}</td>
+                    <td>{produto.preco_min}</td>
+                    <td>{produto.preco_max}</td>
+                    <td>{produto.preco_medio}</td>
+                    <td>{produto.seu_preco_venda}</td>
+                    <td>{produto.imposto_sob_venda}</td>
+                    <td>{produto.margem_contribuicao}</td>
+                    <td>{produto.margem_liquida}</td>
                     <td>
                         <button className="btn btn-warning"
-                            onClick={()=> this.load(insumo)}>
+                            onClick={()=> this.load(produto)}>
                             <i className="fa fa-pencil"></i>
                         </button>
-                        <button className="btn btn-danger ml-2"
-                            onClick={()=> this.remove(insumo)}>
+                        <button className="btn btn-danger"
+                            onClick={()=> this.remove(produto)}>
                             <i className="fa fa-trash"></i>
                         </button>
                     </td>

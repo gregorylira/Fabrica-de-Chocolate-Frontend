@@ -7,6 +7,7 @@ export default props =>
     <aside className="menu-area">
         <nav className="menu">
             <Aref link="/" icon="home" name="Início" />
-            <Aref link="/users" icon="archive" name="Insumos" />
+            <Aref link="/insumos" icon="archive" name="Insumos" />
+            <Aref link="/produtos" icon="bitbucket" name="Produtos" />
         </nav>
     </aside>
